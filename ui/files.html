@@ -1,0 +1,37 @@
+<style>
+.list-group-nested .list-group {
+    margin-top: 10px;
+}
+.list-group-nested .list-group-item {
+    margin-right: 0px;
+    padding-right: 0px;
+    border-right: none;
+    border-left: none;
+}
+</style>
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="file in files">
+        <div class="row">
+            <div class="col-md-8" ng-if="file.attrs.mode_string[0] == 'd'" ng-click="file.open = true" style="cursor: pointer;">
+                <i class="fa fa-folder"></i>
+                {{file.filename}}
+            </div>
+            <div class="col-md-8" ng-if="file.attrs.mode_string[0] != 'd'">
+                <!--<i class="fa fa-file"></i>-->
+                <a href="{{appconf.sca_api}}/resource/download?r={{resourceid}}&p={{path+'/'+file.filename|encodeURI}}&at={{jwt}}">
+                {{file.filename}}
+                </a>
+            </div>
+            <div class="col-md-2" style="text-align: right;">
+                {{file.attrs.size|bytes}}
+            </div>
+            <div class="col-md-2">
+                <pre style="border: none; background-color: inherit; margin: 0px;padding: 0px;">{{file.attrs.mode_string}}</pre>
+            </div>
+            <!--{{file|json}}-->
+        </div>
+        <sca-files resourceid="resourceid" path="file.path" jwt="jwt" ng-if="file.open" class="list-group-nested"></ng-include>
+    </li>
+</ul>
+
+
