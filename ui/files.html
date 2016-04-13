@@ -8,17 +8,25 @@
     border-right: none;
     border-left: none;
 }
+.sca-files-folder {
+    cursor: pointer;
+    color: #008cba;
+}
+.sca-files-file {
+}
 </style>
 <ul class="list-group">
-    <li class="list-group-item" ng-repeat="file in files">
+    <li class="list-group-item slide-down" ng-repeat="file in files">
         <div class="row">
-            <div class="col-md-8" ng-if="file.attrs.mode_string[0] == 'd'" ng-click="file.open = true" style="cursor: pointer;">
-                <i class="fa fa-folder"></i>
-                {{file.filename}}
+            <div class="col-md-8" ng-if="file.attrs.mode_string[0] == 'd'" ng-click="file.open = true">
+                <span class="sca-files-folder">
+                    <i class="fa fa-folder"></i>
+                    {{file.filename}}
+                </span>
             </div>
             <div class="col-md-8" ng-if="file.attrs.mode_string[0] != 'd'">
                 <!--<i class="fa fa-file"></i>-->
-                <a href="{{appconf.sca_api}}/resource/download?r={{resourceid}}&p={{path+'/'+file.filename|encodeURI}}&at={{jwt}}">
+                <a class="sca-files-file" href="{{appconf.sca_api}}/resource/download?r={{resourceid}}&p={{path+'/'+file.filename|encodeURI}}&at={{jwt}}">
                 {{file.filename}}
                 </a>
             </div>

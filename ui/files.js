@@ -35,10 +35,22 @@ service.directive('scaFiles',
             }
 
             $scope.$watch('resourceid', function() {
-                console.log("resource id set to "+$scope.resourceid);
+                //console.log("resource id set to "+$scope.resourceid);
                 if(!$scope.resourceid) return;
                 load_files();
             });
+        }
+    };
+}]);
+
+//can't quite do the slidedown animation through pure angular/css.. borrowing slideDown from jQuery..
+service.animation('.slide-down', ['$animateCss', function($animateCss) {
+    return {
+        enter: function(elem, done) {
+            $(elem).hide().slideDown("normal", done);
+        },
+        leave: function(elem, done) {
+            $(elem).slideUp("normal", done);
         }
     };
 }]);
