@@ -1,40 +1,53 @@
 <style>
 .list-group-nested .list-group {
-    margin-top: 10px;
+    margin-top: 3px;
+    margin-bottom: 0px;
 }
 .list-group-nested .list-group-item {
     margin-right: 0px;
     padding-right: 0px;
     border-right: none;
     border-left: none;
+    border-bottom: none;
 }
 .sca-files-folder {
     cursor: pointer;
-    color: #008cba;
 }
 .sca-files-file {
+    color: black;
+}
+sca-files .list-group-item {
+padding: 3px 10px;
 }
 </style>
 <ul class="list-group">
+    <li class="list-group-item slide-down" ng-if="files.length == 0"><span class="text-muted">(Empty)</span></li>
     <li class="list-group-item slide-down" ng-repeat="file in files">
         <div class="row">
-            <div class="col-md-8" ng-if="file.attrs.mode_string[0] == 'd'" ng-click="file.open = true">
-                <span class="sca-files-folder">
-                    <i class="fa fa-folder"></i>
-                    {{file.filename}}
+            <!--- clean this up--->
+            <div class="col-md-6 sca-files-folder" ng-if="file.attrs.mode_string[0] == 'd'" ng-click="file.open = true">
+                <span style="color: #008cba">
+                    <i class="fa fa-folder" ng-if="!file.open"></i>
+                    <i class="fa fa-folder-open" ng-if="file.open"></i>
                 </span>
-            </div>
-            <div class="col-md-8" ng-if="file.attrs.mode_string[0] != 'd'">
-                <!--<i class="fa fa-file"></i>-->
-                <a class="sca-files-file" href="{{appconf.sca_api}}/resource/download?r={{resourceid}}&p={{path+'/'+file.filename|encodeURI}}&at={{jwt}}">
                 {{file.filename}}
+            </div>
+            <div class="col-md-6" ng-if="file.attrs.mode_string[0] != 'd'">
+                <!--<i class="fa fa-file"></i>-->
+                <a class="sca-files-file" target="_blank" href="{{appconf.sca_api}}/resource/download?r={{resourceid}}&p={{path+'/'+file.filename|encodeURI}}&at={{jwt}}">
+                    {{file.filename}}
                 </a>
             </div>
             <div class="col-md-2" style="text-align: right;">
-                {{file.attrs.size|bytes}}
+                <span ng-if="file.attrs.mode_string[0] != 'd'">
+                    {{file.attrs.size|bytes}}
+                </span>
             </div>
             <div class="col-md-2">
-                <pre style="border: none; background-color: inherit; margin: 0px;padding: 0px;">{{file.attrs.mode_string}}</pre>
+                {{file.attrs.mtime*1000|date:'short'}}
+            </div>
+            <div class="col-md-2">
+                <pre style="font-size: 90%; border: none; background-color: inherit; margin: 0px;padding: 0px;">{{file.attrs.mode_string}}</pre>
             </div>
             <!--{{file|json}}-->
         </div>
